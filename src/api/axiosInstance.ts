@@ -2,7 +2,6 @@ import axios from "axios";
 import { createBrowserHistory } from "history";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
-console.log("Base URL:", process.env.REACT_APP_BASE_URL);
 
 const axiosInstance = axios.create({
   baseURL: baseUrl,
