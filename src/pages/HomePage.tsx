@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchAllExhibits, removeExhibit } from "../api/exhibits";
-import { Alert, Button, Card, Container, Row, Col } from "react-bootstrap";
+import { fetchAllExhibits } from "../api/exhibits";
+import { Alert, Card, Container, Row, Col } from "react-bootstrap";
 import axiosInstance from "../api/axiosInstance";
 
 const HomePage: React.FC = () => {
   const [allPosts, setAllPosts] = useState<any[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const isAuthenticated = useSelector(
-    (state: any) => state.auth.isAuthenticated
-  );
-  const currentUser = useSelector((state: any) => state.auth.user);
 
   useEffect(() => {
     const loadAllPosts = async () => {
@@ -24,15 +20,6 @@ const HomePage: React.FC = () => {
 
     loadAllPosts();
   }, []);
-
-  const handlePostRemoval = async (postId: string) => {
-    try {
-      await removeExhibit(postId);
-      setAllPosts(allPosts.filter((post) => post.id !== postId));
-    } catch (error) {
-      setErrorMessage("Failed to remove post.");
-    }
-  };
 
   return (
     <Container className="mt-4">
@@ -58,16 +45,6 @@ const HomePage: React.FC = () => {
                   </small>
                 </Card.Text>
               </Card.Body>
-              {isAuthenticated && currentUser?.id === post.user.id && (
-                <Card.Footer className="text-center">
-                  <Button
-                    variant="outline-danger"
-                    onClick={() => handlePostRemoval(post.id)}
-                  >
-                    Remove Post
-                  </Button>
-                </Card.Footer>
-              )}
             </Card>
           </Col>
         ))}
